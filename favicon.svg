@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- 深棕色背景 -->
+  <rect width="64" height="64" rx="8" fill="#1a0e05"/>
+  <!-- 羊皮纸底纹 -->
+  <rect x="6" y="6" width="52" height="52" rx="4" fill="#d4b896" opacity=".15"/>
+  <!-- 魔杖 -->
+  <line x1="14" y1="50" x2="50" y2="14" stroke="#c9a84c" stroke-width="3" stroke-linecap="round"/>
+  <line x1="14" y1="50" x2="22" y2="42" stroke="#e8d5b7" stroke-width="4" stroke-linecap="round"/>
+  <!-- 闪电伤疤 -->
+  <path d="M38 8 L34 24 L40 24 L28 44 L32 30 L26 30 L34 8 Z" fill="#c9a84c"/>
+  <path d="M38 8 L34 24 L40 24 L28 44 L32 30 L26 30 L34 8 Z" fill="#e8c84c" opacity=".6"/>
+  <!-- 魔法火花 -->
+  <circle cx="50" cy="12" r="2" fill="#c9a84c" opacity=".8"/>
+  <circle cx="54" cy="20" r="1.2" fill="#c9a84c" opacity=".6"/>
+  <circle cx="46" cy="8" r="1" fill="#e8c84c" opacity=".7"/>
+  <circle cx="12" cy="54" r="1.5" fill="#c9a84c" opacity=".5"/>
+</svg>
