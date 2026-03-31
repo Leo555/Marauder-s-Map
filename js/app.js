@@ -3,11 +3,11 @@
  * 地图控制、角色移动动画、信息卡片、事件绑定
  */
 
-import { FLOOR_DRAW } from './floors.js?v=1.10';
-import { CHARS, AVATARS } from './characters.js?v=1.10';
-import { ROOM_BOUNDS } from '../data/rooms.js?v=1.10';
-import { pickRandom, getResponse } from './chat.js?v=1.10';
-import { startMusic, stopMusic, toggleMusic, isMusicPlaying } from './music.js?v=1.10';
+import { FLOOR_DRAW } from './floors.js?v=1.12';
+import { CHARS, AVATARS } from './characters.js?v=1.12';
+import { ROOM_BOUNDS } from '../data/rooms.js?v=1.12';
+import { pickRandom, getResponse } from './chat.js?v=1.12';
+import { startMusic, stopMusic, toggleMusic, isMusicPlaying } from './music.js?v=1.12';
 
 // ===== 全局状态 =====
 let curFloor = 1;

@@ -1,5 +1,5 @@
 :root{--p:#d4b896;--pl:#e8d5b7;--i:#2a1a0a;--il:#5a3a1a;--if:#8a6a4a;--ig:#b8a080;--g:#c9a84c;--r:#8b2500;--gi:#2d5a27;--fp:#3a2510}
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{background:#1a0e05;overflow:hidden;font-family:'IM Fell English',serif;color:var(--i);cursor:default;user-select:none}
 #opening-screen{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#1a0e05;transition:opacity 1.5s}
 #opening-screen.fade-out{opacity:0;pointer-events:none}
@@ -25,7 +25,7 @@ body{background:#1a0e05;overflow:hidden;font-family:'IM Fell English',serif;colo
 .mh h1{font-family:'Cinzel Decorative',serif;font-size:2rem;color:var(--i);letter-spacing:6px;margin:4px 0;text-shadow:1px 1px 0 var(--pl)}
 .mh .au{font-family:'IM Fell English',serif;font-style:italic;font-size:.75rem;color:var(--if);letter-spacing:2px}
 .fn{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;gap:8px}
-.fb{width:46px;height:46px;border-radius:50%;border:2px solid var(--if);background:var(--p);color:var(--i);font-family:'Cinzel',serif;font-size:.7rem;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+.fb{width:46px;height:46px;border-radius:50%;border:2px solid var(--if);background:var(--p);color:var(--i);font-family:'Cinzel',serif;font-size:.7rem;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.3);outline:none}
 .fb:hover,.fb.active{background:var(--i);color:var(--p);border-color:var(--i);transform:scale(1.1)}
 .ch{position:absolute;cursor:pointer;z-index:50;transition:filter .3s}
 .ch:hover{filter:brightness(.7)}
