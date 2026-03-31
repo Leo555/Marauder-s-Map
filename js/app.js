@@ -3,11 +3,11 @@
  * 地图控制、角色移动动画、信息卡片、事件绑定
  */
 
-import { FLOOR_DRAW } from './floors.js?v=1.6';
-import { CHARS, AVATARS } from './characters.js?v=1.6';
-import { ROOM_BOUNDS } from '../data/rooms.js?v=1.6';
-import { pickRandom, getResponse } from './chat.js?v=1.6';
-import { startMusic, stopMusic, toggleMusic, isMusicPlaying } from './music.js?v=1.6';
+import { FLOOR_DRAW } from './floors.js?v=1.7';
+import { CHARS, AVATARS } from './characters.js?v=1.7';
+import { ROOM_BOUNDS } from '../data/rooms.js?v=1.7';
+import { pickRandom, getResponse } from './chat.js?v=1.7';
+import { startMusic, stopMusic, toggleMusic, isMusicPlaying } from './music.js?v=1.7';
 
 // ===== 全局状态 =====
 let curFloor = 1;
@@ -207,6 +207,65 @@ function startMove() {
   raf = requestAnimationFrame(step);
 }
 
+// ===== 角色自我介绍 =====
+let introSpeech = null;
+
+function closeIntroBubble() {
+  const bubble = document.getElementById('intro-bubble');
+  if (bubble) bubble.classList.remove('ib-visible');
+  if (introSpeech) { speechSynthesis.cancel(); introSpeech = null; }
+}
+
+function speakIntro(c) {
+  if (!c.intro) return;
+  // 停止之前的朗读
+  if (introSpeech) {
+    speechSynthesis.cancel();
+    introSpeech = null;
+  }
+
+  // 创建气泡
+  let bubble = document.getElementById('intro-bubble');
+  if (!bubble) {
+    bubble = document.createElement('div');
+    bubble.id = 'intro-bubble';
+    document.body.appendChild(bubble);
+  }
+  bubble.innerHTML = `<div class="ib-close" onclick="event.stopPropagation();closeIntroBubble()">&times;</div><div class="ib-name">${c.cn}</div><div class="ib-text">${c.intro}</div>`;
+  bubble.classList.remove('ib-visible');
+  void bubble.offsetWidth; // 触发 reflow
+  bubble.classList.add('ib-visible');
+
+  // 3秒后自动隐藏
+  clearTimeout(bubble._timer);
+  bubble._timer = setTimeout(() => {
+    bubble.classList.remove('ib-visible');
+  }, Math.max(c.intro.length * 280, 3000));
+
+  // 语音朗读
+  if ('speechSynthesis' in window) {
+    introSpeech = new SpeechSynthesisUtterance(c.intro);
+    introSpeech.lang = 'zh-CN';
+    introSpeech.rate = 0.9;
+    introSpeech.pitch = 1;
+    // 不同角色尝试不同声音
+    const voices = speechSynthesis.getVoices();
+    const zhVoices = voices.filter(v => v.lang.startsWith('zh'));
+    if (zhVoices.length > 0) {
+      // 根据角色性格选不同声音
+      const idx = CHARS.indexOf(c) % zhVoices.length;
+      introSpeech.voice = zhVoices[idx];
+    }
+    introSpeech.onend = () => {
+      introSpeech = null;
+    };
+    introSpeech.onerror = () => {
+      introSpeech = null;
+    };
+    speechSynthesis.speak(introSpeech);
+  }
+}
+
 // ===== 角色信息卡片 =====
 function showInfo(id) {
   const c = CHARS.find(ch => ch.id === id);
@@ -224,6 +283,13 @@ function showInfo(id) {
     } else {
       av.innerHTML = `<span style="font-size:22px;line-height:1">${a.icon}</span>`;
     }
+    // 头像点击 → 自我介绍
+    av.style.cursor = 'pointer';
+    av.title = '点击听取自我介绍';
+    av.onclick = e => {
+      e.stopPropagation();
+      speakIntro(c);
+    };
   }
 
   document.getElementById('cn').textContent = c.cn;
@@ -264,6 +330,13 @@ function showInfo(id) {
 function closeCard() {
   document.getElementById('ic').classList.remove('visible');
   selChar = null;
+  // 停止朗读
+  if (introSpeech) {
+    speechSynthesis.cancel();
+    introSpeech = null;
+  }
+  const bubble = document.getElementById('intro-bubble');
+  if (bubble) bubble.classList.remove('ib-visible');
 }
 
 // ===== 聊天 =====

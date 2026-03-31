@@ -17,8 +17,7 @@ echo "Bumping version to: $VER"
 sed -i.bak "s/app\.js?v=[^\"']*/app.js?v=$VER/g" index.html && rm -f index.html.bak
 
 # 替换 index.html 中 CSS 的 ?v=xxx
-sed -i.bak "s/css\/[^\"']*.css?v=[^\"']*/&/g" index.html
-sed -i.bak "s/\(css\/[^\"']*\)\.css/\1.css?v=$VER/g" index.html && rm -f index.html.bak
+sed -i.bak "s/\(css\/[^\"']*\)\.css?v=[^\"']*/\1.css?v=$VER/g" index.html && rm -f index.html.bak
 
 # 替换 JS 文件中 import 路径的 ?v=xxx
 for f in js/*.js data/*.js; do
