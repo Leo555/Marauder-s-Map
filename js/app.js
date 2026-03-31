@@ -3,11 +3,11 @@
  * 地图控制、角色移动动画、信息卡片、事件绑定
  */
 
-import { FLOOR_DRAW } from './floors.js';
-import { CHARS, AVATARS } from './characters.js';
-import { ROOM_BOUNDS } from '../data/rooms.js';
-import { pickRandom, getResponse } from './chat.js';
-import { startMusic, stopMusic, toggleMusic, isMusicPlaying } from './music.js';
+import { FLOOR_DRAW } from './floors.js?v=1.6';
+import { CHARS, AVATARS } from './characters.js?v=1.6';
+import { ROOM_BOUNDS } from '../data/rooms.js?v=1.6';
+import { pickRandom, getResponse } from './chat.js?v=1.6';
+import { startMusic, stopMusic, toggleMusic, isMusicPlaying } from './music.js?v=1.6';
 
 // ===== 全局状态 =====
 let curFloor = 1;
@@ -57,8 +57,8 @@ function openMap() {
     startMove();
     updateMM();
     const c = document.getElementById('mc');
-    c.scrollLeft = (1400 - c.clientWidth) / 2;
-    c.scrollTop = 0;
+    c.scrollLeft = (2000 - c.clientWidth) / 2;
+    c.scrollTop = (1600 - c.clientHeight) / 2;
   }, 800);
 }
 
@@ -213,13 +213,17 @@ function showInfo(id) {
   if (!c) return;
   selChar = id;
 
-  // 头像
+  // 头像（优先使用电影剧照，失败时回退到 emoji）
   const av = document.getElementById('cavatar');
   const a = AVATARS[c.id];
   if (a) {
     av.style.background = a.bg;
     av.style.borderColor = a.color;
-    av.innerHTML = `<span style="font-size:22px;line-height:1">${a.icon}</span>`;
+    if (a.img) {
+      av.innerHTML = `<img src="${a.img}" alt="${c.cn}" onerror="this.parentElement.innerHTML='<span style=\\'font-size:22px;line-height:1\\'>${a.icon}</span>'">`;
+    } else {
+      av.innerHTML = `<span style="font-size:22px;line-height:1">${a.icon}</span>`;
+    }
   }
 
   document.getElementById('cn').textContent = c.cn;
@@ -302,7 +306,7 @@ function updateMM() {
   const vp = document.getElementById('mmv');
   const mm = document.getElementById('mm');
   if (!mm || mm.style.display === 'none') return;
-  const sx = 160 / 1400, sy = 130 / 900;
+  const sx = 160 / 2000, sy = 130 / 1600;
   (function u() {
     if (!mapOpen) return;
     const vw = c.clientWidth * sx, vh = c.clientHeight * sy;

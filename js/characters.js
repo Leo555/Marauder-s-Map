@@ -4,30 +4,33 @@
  */
 
 // --- 角色头像 ---
+// img: 本地电影剧照（assets/avatars/）
+// icon: 后备 emoji（图片加载失败时使用）
+const _av = 'assets/avatars/';
 export const AVATARS={
-harry:{icon:'⚡',bg:'#740001',color:'#d3a625'},
-hermione:{icon:'📚',bg:'#740001',color:'#d3a625'},
-ron:{icon:'♟️',bg:'#740001',color:'#d3a625'},
-dumbledore:{icon:'🔮',bg:'#2a1a0a',color:'#c9a84c'},
-snape:{icon:'⚗️',bg:'#1a472a',color:'#aaa'},
-draco:{icon:'🐍',bg:'#1a472a',color:'#aaa'},
-luna:{icon:'🌙',bg:'#0e1a40',color:'#946b2d'},
-hagrid:{icon:'🪄',bg:'#2a1a0a',color:'#c9a84c'},
-dobby:{icon:'🧦',bg:'#2a1a0a',color:'#c9a84c'},
-mcgonagall:{icon:'🐱',bg:'#2a1a0a',color:'#c9a84c'},
-neville:{icon:'🌿',bg:'#740001',color:'#d3a625'},
-'fred-george':{icon:'💥',bg:'#740001',color:'#d3a625'},
-ginny:{icon:'🔥',bg:'#740001',color:'#d3a625'},
-sirius:{icon:'🐾',bg:'#2a1a0a',color:'#c9a84c'},
-lupin:{icon:'🌕',bg:'#2a1a0a',color:'#c9a84c'},
-peeves:{icon:'👻',bg:'#4a3a6a',color:'#c9a84c'},
-filch:{icon:'🔦',bg:'#4a3a2a',color:'#8a6a4a'},
-trelawney:{icon:'🔮',bg:'#2a1a0a',color:'#c9a84c'},
-hooch:{icon:'🧹',bg:'#2a1a0a',color:'#c9a84c'},
-sprout:{icon:'🌱',bg:'#ecb939',color:'#372e29'},
-oliver:{icon:'🏆',bg:'#740001',color:'#d3a625'},
-angelina:{icon:'🔴',bg:'#740001',color:'#d3a625'},
-cedric:{icon:'⭐',bg:'#ecb939',color:'#372e29'}
+harry:{img:`${_av}harry.webp`,icon:'⚡',bg:'#740001',color:'#d3a625'},
+hermione:{img:`${_av}hermione.webp`,icon:'📚',bg:'#740001',color:'#d3a625'},
+ron:{img:`${_av}ron.webp`,icon:'♟️',bg:'#740001',color:'#d3a625'},
+dumbledore:{img:`${_av}dumbledore.webp`,icon:'🔮',bg:'#2a1a0a',color:'#c9a84c'},
+snape:{img:`${_av}snape.webp`,icon:'⚗️',bg:'#1a472a',color:'#aaa'},
+draco:{img:`${_av}draco.webp`,icon:'🐍',bg:'#1a472a',color:'#aaa'},
+luna:{img:`${_av}luna.webp`,icon:'🌙',bg:'#0e1a40',color:'#946b2d'},
+hagrid:{img:`${_av}hagrid.webp`,icon:'🪄',bg:'#2a1a0a',color:'#c9a84c'},
+dobby:{img:`${_av}dobby.webp`,icon:'🧦',bg:'#2a1a0a',color:'#c9a84c'},
+mcgonagall:{img:`${_av}mcgonagall.webp`,icon:'🐱',bg:'#2a1a0a',color:'#c9a84c'},
+neville:{img:`${_av}neville.webp`,icon:'🌿',bg:'#740001',color:'#d3a625'},
+'fred-george':{img:`${_av}fred-george.webp`,icon:'💥',bg:'#740001',color:'#d3a625'},
+ginny:{img:`${_av}ginny.webp`,icon:'🔥',bg:'#740001',color:'#d3a625'},
+sirius:{img:`${_av}sirius.webp`,icon:'🐾',bg:'#2a1a0a',color:'#c9a84c'},
+lupin:{img:`${_av}lupin.webp`,icon:'🌕',bg:'#2a1a0a',color:'#c9a84c'},
+peeves:{img:`${_av}peeves.webp`,icon:'👻',bg:'#4a3a6a',color:'#c9a84c'},
+filch:{img:`${_av}filch.webp`,icon:'🔦',bg:'#4a3a2a',color:'#8a6a4a'},
+trelawney:{img:`${_av}trelawney.webp`,icon:'🔮',bg:'#2a1a0a',color:'#c9a84c'},
+hooch:{img:`${_av}hooch.webp`,icon:'🧹',bg:'#2a1a0a',color:'#c9a84c'},
+sprout:{img:`${_av}sprout.webp`,icon:'🌱',bg:'#ecb939',color:'#372e29'},
+oliver:{img:`${_av}oliver.webp`,icon:'🏆',bg:'#740001',color:'#d3a625'},
+angelina:{img:`${_av}angelina.webp`,icon:'🔴',bg:'#740001',color:'#d3a625'},
+cedric:{img:`${_av}cedric.webp`,icon:'⭐',bg:'#ecb939',color:'#372e29'}
 };
 
 // --- 角色列表 ---

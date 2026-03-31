@@ -2,7 +2,7 @@
  * floors.js — 4个楼层的SVG绘制
  * 每层布局根据小说/电影描述设计，各具特色
  */
-import { W, S, drawRoom, drawTower, drawStairs, drawCorridor, drawDoor, addLabel, drawBorder, drawCompass, drawPoly, drawCurvedCorridor, drawLRoom, drawHouseCrest, drawHouseGlow } from './svg-draw.js';
+import { W, S, drawRoom, drawTower, drawStairs, drawCorridor, drawDoor, addLabel, drawBorder, drawCompass, drawPoly, drawCurvedCorridor, drawLRoom, drawHouseCrest, drawHouseGlow } from './svg-draw.js?v=1.6';
 
 export const FLOOR_DRAW = {
 
