@@ -3,11 +3,13 @@
  * 地图控制、角色移动动画、信息卡片、事件绑定
  */
 
-import { FLOOR_DRAW } from './floors.js?v=1.13';
-import { CHARS, AVATARS } from './characters.js?v=1.13';
-import { ROOM_BOUNDS } from '../data/rooms.js?v=1.13';
-import { pickRandom, getResponse } from './chat.js?v=1.13';
-import { startMusic, stopMusic, toggleMusic, isMusicPlaying } from './music.js?v=1.13';
+import { FLOOR_DRAW } from './floors.js?v=1.14';
+import { CHARS, AVATARS } from './characters.js?v=1.14';
+import './characters-en.js?v=1.14';
+import { ROOM_BOUNDS } from '../data/rooms.js?v=1.14';
+import { pickRandom, getResponse } from './chat.js?v=1.14';
+import { startMusic, stopMusic, toggleMusic, isMusicPlaying } from './music.js?v=1.14';
+import { initLang, getLang, setLang, t, charName, onLangChange } from './i18n.js?v=1.14';
 
 // ===== 全局状态 =====
 let curFloor = 1;
@@ -19,14 +21,14 @@ let raf = null;
 function castSpell() {
   const v = document.getElementById('si').value.trim().toLowerCase();
   if (!v) {
-    document.getElementById('serr').textContent = '你需要说出正确的咒语...';
+    document.getElementById('serr').textContent = t('emptySpell');
     setTimeout(() => document.getElementById('serr').textContent = '', 3000);
     return;
   }
   if (v.includes('solemnly') || v.includes('swear') || v.includes('宣誓') || v.includes('好事') || v.includes('no good')) {
     openMap();
   } else {
-    document.getElementById('serr').textContent = '"这张羊皮纸只是一张羊皮纸" — 纸上缓缓浮现字迹';
+    document.getElementById('serr').textContent = t('wrongSpell');
     setTimeout(() => document.getElementById('serr').textContent = '', 3000);
   }
 }
@@ -50,6 +52,9 @@ function openMap() {
     document.getElementById('cmb').style.display = 'block';
     document.getElementById('mm').style.display = 'block';
     document.getElementById('music-btn').style.display = 'flex';
+    const mlb = document.getElementById('map-lang-btn');
+    if (mlb) mlb.style.display = 'flex';
+    document.getElementById('lang-btn').style.display = 'none';
     mapOpen = true;
     startMusic();
     updateMusicBtn();
@@ -69,6 +74,9 @@ function closeMap() {
   document.getElementById('cmb').style.display = 'none';
   document.getElementById('mm').style.display = 'none';
   document.getElementById('music-btn').style.display = 'none';
+  const mlb = document.getElementById('map-lang-btn');
+  if (mlb) mlb.style.display = 'none';
+  document.getElementById('lang-btn').style.display = 'flex';
   mapOpen = false;
   stopMusic();
   closeCard();
@@ -99,7 +107,7 @@ function renderChars(f) {
     el.id = `c-${c.id}`;
     el.style.cssText = `left:${c.x}px;top:${c.y}px`;
     el.onclick = e => { e.stopPropagation(); showInfo(c.id); };
-    el.innerHTML = `<div class="fps"><div class="fp l"><div class="t"></div><div class="t"></div><div class="t"></div></div><div class="fp r"><div class="t"></div><div class="t"></div><div class="t"></div></div></div><div class="cn">${c.cn}</div>`;
+    el.innerHTML = `<div class="fps"><div class="fp l"><div class="t"></div><div class="t"></div><div class="t"></div></div><div class="fp r"><div class="t"></div><div class="t"></div><div class="t"></div></div></div><div class="cn">${charName(c)}</div>`;
     cl.appendChild(el);
   });
 }
@@ -228,8 +236,9 @@ function speakIntro(c) {
     document.body.appendChild(bubble);
   }
   const av = AVATARS[c.id];
-  const avHtml = av ? `<img class="ib-avatar" src="${av.img}" alt="${c.cn}" onerror="this.outerHTML='<span class=\\'ib-avatar ib-avatar-fallback\\'>${av.icon||'🧙'}</span>'">` : '';
-  bubble.innerHTML = `<div class="ib-close">&times;</div>${avHtml}<div class="ib-name">${c.cn}</div><div class="ib-text">${c.intro}</div>`;
+  const name = charName(c);
+  const avHtml = av ? `<img class="ib-avatar" src="${av.img}" alt="${name}" onerror="this.outerHTML='<span class=\\'ib-avatar ib-avatar-fallback\\'>${av.icon||'🧙'}</span>'">` : '';
+  bubble.innerHTML = `<div class="ib-close">&times;</div>${avHtml}<div class="ib-name">${name}</div><div class="ib-text">${getLang() === 'zh' ? c.intro : (c.intro_en || c.intro)}</div>`;
   bubble.querySelector('.ib-close').addEventListener('click', e => {
     e.stopPropagation();
     closeIntroBubble();
@@ -254,27 +263,28 @@ function showInfo(id) {
     av.style.background = a.bg;
     av.style.borderColor = a.color;
     if (a.img) {
-      av.innerHTML = `<img src="${a.img}" alt="${c.cn}" onerror="this.parentElement.innerHTML='<span style=\\'font-size:22px;line-height:1\\'>${a.icon}</span>'">`;
+      av.innerHTML = `<img src="${a.img}" alt="${charName(c)}" onerror="this.parentElement.innerHTML='<span style=\\'font-size:22px;line-height:1\\'>${a.icon}</span>'">`;
     } else {
       av.innerHTML = `<span style="font-size:22px;line-height:1">${a.icon}</span>`;
     }
     // 头像点击 → 自我介绍
     av.style.cursor = 'pointer';
-    av.title = '点击查看自我介绍';
+    av.title = t('viewIntro');
     av.onclick = e => {
       e.stopPropagation();
       speakIntro(c);
     };
   }
 
-  document.getElementById('cn').textContent = c.cn;
+  document.getElementById('cn').textContent = charName(c);
   const b = document.getElementById('ch');
-  const hn = { gryffindor: '格兰芬多', slytherin: '斯莱特林', ravenclaw: '拉文克劳', hufflepuff: '赫奇帕奇', staff: '教职员工' };
+  const hn = t('houses');
   b.textContent = hn[c.h] || c.h;
   b.className = 'hb h' + c.h[0];
 
-  document.getElementById('cloc').textContent = '在地图上移动中';
-  document.getElementById('cact').textContent = `「${c.acts[Math.floor(Math.random() * c.acts.length)]}」`;
+  document.getElementById('cloc').textContent = t('movingOnMap');
+  const acts = getLang() === 'zh' ? c.acts : (c.acts_en || c.acts);
+  document.getElementById('cact').textContent = `「${acts[Math.floor(Math.random() * acts.length)]}」`;
   document.getElementById('cms').innerHTML = '';
 
   // 卡片定位（桌面端浮在角色旁，移动端由CSS固定在底部）
@@ -298,7 +308,7 @@ function showInfo(id) {
   setTimeout(() => {
     const greetTopic = c.topics.find(t => t.greet);
     const greeting = greetTopic ? pickRandom(greetTopic.r, c.id) : pickRandom(c._, c.id);
-    addMsg(c.cn, greeting, false);
+    addMsg(charName(c), greeting, false);
   }, 400);
 }
 
@@ -316,13 +326,13 @@ function sendChat() {
   if (!txt || !selChar) return;
   const c = CHARS.find(ch => ch.id === selChar);
   if (!c) return;
-  addMsg('你', txt, true);
+  addMsg(t('you'), txt, true);
   inp.value = '';
 
   // 打字指示器
   const dots = document.createElement('div');
   dots.className = 'cm';
-  dots.innerHTML = `<span class="s">${c.cn}:</span> <span class="tx" style="opacity:0.5">正在输入...</span>`;
+  dots.innerHTML = `<span class="s">${charName(c)}:</span> <span class="tx" style="opacity:0.5">${t('typing')}</span>`;
   document.getElementById('cms').appendChild(dots);
   document.getElementById('cms').scrollTop = document.getElementById('cms').scrollHeight;
 
@@ -330,7 +340,7 @@ function sendChat() {
   setTimeout(() => {
     dots.remove();
     const resp = getResponse(c, txt);
-    addMsg(c.cn, resp, false);
+    addMsg(charName(c), resp, false);
   }, Math.min(delay, 2500));
 }
 
@@ -436,7 +446,7 @@ function updateMusicBtn() {
   const playing = isMusicPlaying();
   btn.textContent = playing ? '🔊' : '🔇';
   btn.classList.toggle('playing', playing);
-  btn.title = playing ? '关闭音乐' : '开启音乐';
+  btn.title = playing ? t('musicOn') : t('musicOff');
 }
 
 // ===== 咒语自动填充（打字机效果）=====
@@ -458,3 +468,42 @@ function startTypeSpell() {
 }
 
 startTypeSpell();
+
+// ===== 国际化 =====
+initLang();
+applyLang();
+
+function applyLang() {
+  const lang = getLang();
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+  document.getElementById('spell-hint').textContent = t('spellHint');
+  document.getElementById('sbtn').textContent = t('castBtn');
+  document.getElementById('map-subtitle').textContent = t('subtitle');
+  document.getElementById('fb-gd').textContent = t('floor4');
+  document.getElementById('ci').placeholder = t('chatPlaceholder');
+  document.getElementById('csb').textContent = t('sendBtn');
+  document.getElementById('music-btn').title = t('musicTitle');
+  const langBtn = document.getElementById('lang-btn');
+  langBtn.textContent = lang === 'zh' ? 'EN' : '中';
+  const mapLangBtn = document.getElementById('map-lang-btn');
+  if (mapLangBtn) mapLangBtn.textContent = lang === 'zh' ? 'EN' : '中';
+}
+
+document.getElementById('lang-btn').addEventListener('click', () => {
+  setLang(getLang() === 'zh' ? 'en' : 'zh');
+  applyLang();
+  if (mapOpen) renderFloor(curFloor);
+});
+
+// 地图内语言切换按钮（动态创建）
+const mapLangBtn = document.createElement('button');
+mapLangBtn.id = 'map-lang-btn';
+mapLangBtn.className = 'lang-btn-map';
+mapLangBtn.textContent = getLang() === 'zh' ? 'EN' : '中';
+mapLangBtn.style.display = 'none';
+document.body.appendChild(mapLangBtn);
+mapLangBtn.addEventListener('click', () => {
+  setLang(getLang() === 'zh' ? 'en' : 'zh');
+  applyLang();
+  if (mapOpen) renderFloor(curFloor);
+});

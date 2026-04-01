@@ -2,7 +2,11 @@
  * floors.js — 4个楼层的SVG绘制
  * 每层布局根据小说/电影描述设计，各具特色
  */
-import { W, S, drawRoom, drawTower, drawStairs, drawCorridor, drawDoor, addLabel, drawBorder, drawCompass, drawPoly, drawCurvedCorridor, drawLRoom, drawHouseCrest, drawHouseGlow } from './svg-draw.js?v=1.13';
+import { W, S, drawRoom, drawTower, drawStairs, drawCorridor, drawDoor, addLabel, drawBorder, drawCompass, drawPoly, drawCurvedCorridor, drawLRoom, drawHouseCrest, drawHouseGlow } from './svg-draw.js?v=1.14';
+import { getLang } from './i18n.js?v=1.14';
+
+/** 根据语言选择中文或英文标签 */
+function L(zh, en) { return getLang() === 'zh' ? zh : en; }
 
 export const FLOOR_DRAW = {
 
@@ -23,7 +27,7 @@ export const FLOOR_DRAW = {
   S('path', { d: `M ${W(250, 440)} L ${W(580, 442)}`, class: 'rpt', style: `animation-delay:${b + 0.9}s;stroke-width:1.5;opacity:.5` }, svg);
   drawDoor(svg, 200, 180, 440, 290, 'right', 0.3, b + 0.4);
   addLabel(svg, 410, 310, 'Great Hall', 'll', b + 0.5);
-  addLabel(svg, 410, 330, '大礼堂', 'ls', b + 0.55);
+  addLabel(svg, 410, 330, L('大礼堂','Great Hall'), 'ls', b + 0.55);
   // 星空天花板装饰
   for (let i = 0; i < 8; i++) {
     S('circle', { cx: 250 + Math.random() * 350, cy: 190 + Math.random() * 40, r: 1, fill: '#8a6a4a', opacity: 0, style: `animation:ikf 3s ease ${b + 1.2 + i * 0.1}s forwards` }, svg);
@@ -35,7 +39,7 @@ export const FLOOR_DRAW = {
   drawDoor(svg, 680, 200, 250, 280, 'bottom', 0.5, b + 0.45);
   addLabel(svg, 785, 330, 'Entrance', 'lt', b + 0.5);
   addLabel(svg, 785, 348, 'Hall', 'lt', b + 0.5);
-  addLabel(svg, 785, 366, '入口大厅', 'ls', b + 0.55);
+  addLabel(svg, 785, 366, L('入口大厅','Entrance Hall'), 'ls', b + 0.55);
 
   // ── 弯曲走廊：入口大厅 → 右翼 ──
   drawCurvedCorridor(svg, [[920, 310], [980, 290], [1050, 300], [1100, 280]], 28, b + 0.5);
@@ -46,7 +50,7 @@ export const FLOOR_DRAW = {
     S('rect', { x: 1115 + i * 45, y: 230, width: 20, height: 8, rx: 2, fill: 'none', stroke: '#8a6a4a', 'stroke-width': 0.5, opacity: 0, style: `animation:ikf 2s ease ${b + 1 + i * 0.08}s forwards` }, svg);
   }
   addLabel(svg, 1225, 270, 'Trophy Room', 'lt', b + 0.65);
-  addLabel(svg, 1225, 285, '奖杯陈列室', 'ls', b + 0.7);
+  addLabel(svg, 1225, 285, L('奖杯陈列室','Trophy Room'), 'ls', b + 0.7);
 
   // ── 费尔奇办公室（紧挨奖杯室的小间） ──
   drawRoom(svg, 1360, 220, 110, 90, { delay: b + 0.65 });
@@ -55,7 +59,7 @@ export const FLOOR_DRAW = {
   // ── 教工休息室（不规则五边形） ──
   drawPoly(svg, [[1100, 370], [1280, 360], [1310, 430], [1250, 490], [1080, 480]], { delay: b + 0.6 });
   addLabel(svg, 1190, 430, 'Staff Room', 'lt', b + 0.7);
-  addLabel(svg, 1190, 448, '教工休息室', 'ls', b + 0.75);
+  addLabel(svg, 1190, 448, L('教工休息室','Staff Room'), 'ls', b + 0.75);
 
   // ── 弯曲走廊：入口 → 中庭 ──
   drawCurvedCorridor(svg, [[780, 470], [800, 530], [790, 590], [770, 640]], 25, b + 0.5);
@@ -65,7 +69,7 @@ export const FLOOR_DRAW = {
   drawTower(svg, 790, 745, 18, { delay: b + 0.9 });
   S('circle', { cx: 790, cy: 745, r: 6, fill: 'none', stroke: '#8a6a4a', 'stroke-width': 0.5, opacity: 0.3 }, svg);
   addLabel(svg, 790, 725, 'Courtyard', 'lt', b + 0.6);
-  addLabel(svg, 790, 742, '中庭', 'ls', b + 0.65);
+  addLabel(svg, 790, 742, L('中庭','Courtyard'), 'ls', b + 0.65);
 
   // ── 弯曲走廊：入口 → 厨房/地牢区（向下弯曲） ──
   drawCurvedCorridor(svg, [[680, 400], [600, 480], [520, 560], [460, 610]], 22, b + 0.5);
@@ -76,7 +80,7 @@ export const FLOOR_DRAW = {
   for (let i = 0; i < 4; i++) S('circle', { cx: 240 + i * 60, cy: 620, r: 10, class: 'dl', 'stroke-width': 0.7, style: `opacity:0;animation:ikf 2s ease ${b + 1.1 + i * 0.06}s forwards` }, svg);
   drawDoor(svg, 180, 540, 300, 190, 'top', 0.5, b + 0.6);
   addLabel(svg, 340, 635, 'Kitchen', 'lt', b + 0.65);
-  addLabel(svg, 340, 652, '厨房', 'ls', b + 0.7);
+  addLabel(svg, 340, 652, L('厨房','Kitchen'), 'ls', b + 0.7);
   addLabel(svg, 180, 710, 'Tickle the pear...', 'hw', b + 1.5);
 
   // ── 赫奇帕奇公共休息室（圆形地窖入口，在厨房旁） ──
@@ -84,7 +88,7 @@ export const FLOOR_DRAW = {
   drawTower(svg, 300, 850, 45, { delay: b + 0.8 });
   S('ellipse', { cx: 300, cy: 780, rx: 15, ry: 8, class: 'da', style: `opacity:0;animation:ikf 2s ease ${b + 1.1}s forwards` }, svg);
   addLabel(svg, 300, 845, 'Hufflepuff', 'lt', b + 0.85);
-  addLabel(svg, 300, 862, '赫奇帕奇', 'ls', b + 0.9);
+  addLabel(svg, 300, 862, L('赫奇帕奇','Hufflepuff'), 'ls', b + 0.9);
   drawHouseGlow(svg, 300, 850, 80, 'hufflepuff', b + 1);
   drawHouseCrest(svg, 300, 850, 'hufflepuff', 22, b + 1.1);
 
@@ -92,7 +96,7 @@ export const FLOOR_DRAW = {
   drawPoly(svg, [[480, 800], [620, 780], [660, 830], [650, 920], [580, 950], [470, 930], [450, 870]], { delay: b + 0.75, thick: true });
   S('path', { d: 'M 480,800 Q 465,860 480,930', class: 'dl', 'stroke-width': '0.8', style: `opacity:0;animation:ikf 2s ease ${b + 1.2}s forwards` }, svg);
   addLabel(svg, 560, 870, 'Slytherin', 'lt', b + 0.85);
-  addLabel(svg, 560, 888, '斯莱特林', 'ls', b + 0.9);
+  addLabel(svg, 560, 888, L('斯莱特林','Slytherin'), 'ls', b + 0.9);
   drawHouseGlow(svg, 560, 870, 70, 'slytherin', b + 1);
   drawHouseCrest(svg, 560, 870, 'slytherin', 20, b + 1.1);
   addLabel(svg, 600, 940, 'Dungeons below', 'hw', b + 1.6);
@@ -101,7 +105,7 @@ export const FLOOR_DRAW = {
   drawLRoom(svg, 1350, 380, 200, 100, 130, 200, 'br', { delay: b + 0.7 });
   for (let i = 0; i < 3; i++) S('rect', { x: 1370 + i * 55, y: 410, width: 35, height: 14, rx: 3, fill: 'none', stroke: '#8a6a4a', 'stroke-width': 0.5, opacity: 0, style: `animation:ikf 2s ease ${b + 1.1 + i * 0.1}s forwards` }, svg);
   addLabel(svg, 1450, 460, 'Hospital Wing', 'lt', b + 0.85);
-  addLabel(svg, 1450, 478, '医疗翼', 'ls', b + 0.9);
+  addLabel(svg, 1450, 478, L('医疗翼','Hospital Wing'), 'ls', b + 0.9);
 
   // ── 移动楼梯（高高的竖井） ──
   drawStairs(svg, 1500, 180, 100, 500, 22, b + 0.7);
@@ -111,7 +115,7 @@ export const FLOOR_DRAW = {
   }
   addLabel(svg, 1550, 430, 'Moving', 'ls', b + 0.9);
   addLabel(svg, 1550, 445, 'Staircase', 'ls', b + 0.95);
-  addLabel(svg, 1550, 460, '移动楼梯', 'ls', b + 1);
+  addLabel(svg, 1550, 460, L('移动楼梯','Moving Stairs'), 'ls', b + 1);
 
   // ── 装饰 ──
   S('path', { d: 'M 150, 160 Q 500,148 850,162 Q 1200,176 1600,158', class: 'dl', style: `opacity:0;animation:ikf 3s ease ${b + 0.5}s forwards` }, svg);
@@ -130,21 +134,21 @@ export const FLOOR_DRAW = {
 
   // ── 主走廊（S型弯曲，贯穿整层） ──
   drawCurvedCorridor(svg, [[200, 420], [350, 400], [550, 430], [750, 410], [950, 440], [1150, 420], [1350, 440], [1500, 420]], 30, b + 0.3);
-  addLabel(svg, 750, 455, '—— 二层走廊 ——', 'ls', b + 0.6);
+  addLabel(svg, 750, 455, L('—— 二层走廊 ——','—— 2nd Floor ——'), 'ls', b + 0.6);
 
   // ── 变形术教室（梯形，在走廊北侧左端） ──
   drawPoly(svg, [[180, 200], [420, 190], [430, 370], [170, 380]], { thick: true, delay: b + 0.2 });
   for (let r = 0; r < 3; r++) for (let c = 0; c < 4; c++) S('rect', { x: 210 + c * 50, y: 230 + r * 40, width: 28, height: 10, rx: 1, fill: 'none', stroke: '#8a6a4a', 'stroke-width': 0.4, opacity: 0, style: `animation:ikf 2s ease ${b + 0.8 + (r * 4 + c) * 0.04}s forwards` }, svg);
   drawDoor(svg, 180, 200, 250, 180, 'bottom', 0.5, b + 0.35);
   addLabel(svg, 300, 285, 'Transfiguration', 'll', b + 0.4);
-  addLabel(svg, 300, 305, '变形术教室', 'ls', b + 0.45);
+  addLabel(svg, 300, 305, L('变形术教室','Transfiguration'), 'ls', b + 0.45);
 
   // ── 魔咒学教室（六边形，独特形状） ──
   drawPoly(svg, [[520, 200], [660, 180], [740, 250], [720, 370], [590, 380], [500, 310]], { delay: b + 0.3 });
   for (let i = 0; i < 6; i++) S('rect', { x: 550 + (i % 3) * 50, y: 240 + Math.floor(i / 3) * 50, width: 30, height: 12, rx: 1, fill: 'none', stroke: '#8a6a4a', 'stroke-width': 0.4, opacity: 0, style: `animation:ikf 2s ease ${b + 0.9 + i * 0.05}s forwards` }, svg);
   drawDoor(svg, 520, 200, 220, 180, 'bottom', 0.4, b + 0.4);
   addLabel(svg, 630, 285, 'Charms', 'll', b + 0.45);
-  addLabel(svg, 630, 305, '魔咒学教室', 'ls', b + 0.5);
+  addLabel(svg, 630, 305, L('魔咒学教室','Charms'), 'ls', b + 0.5);
 
   // ── 黑魔法防御术教室（不规则五边形，在走廊南侧） ──
   drawPoly(svg, [[200, 500], [430, 490], [450, 620], [380, 680], [180, 670]], { delay: b + 0.35 });
@@ -153,14 +157,14 @@ export const FLOOR_DRAW = {
   drawDoor(svg, 200, 500, 250, 180, 'top', 0.4, b + 0.45);
   addLabel(svg, 310, 575, 'Defence Against', 'lt', b + 0.5);
   addLabel(svg, 310, 592, 'the Dark Arts', 'lt', b + 0.55);
-  addLabel(svg, 310, 612, '黑魔法防御术', 'ls', b + 0.6);
+  addLabel(svg, 310, 612, L('黑魔法防御术','DADA'), 'ls', b + 0.6);
 
   // ── 魔药学教室（地牢风格，拱形天花板感） ──
   drawPoly(svg, [[520, 500], [720, 490], [740, 550], [750, 680], [700, 700], [530, 700], [500, 640], [490, 540]], { thick: true, delay: b + 0.4 });
   for (let i = 0; i < 5; i++) drawTower(svg, 560 + i * 35, 600, 9, { delay: b + 0.9 + i * 0.05 });
   drawDoor(svg, 520, 500, 220, 200, 'top', 0.5, b + 0.5);
   addLabel(svg, 625, 580, 'Potions', 'll', b + 0.55);
-  addLabel(svg, 625, 600, '魔药学教室', 'ls', b + 0.6);
+  addLabel(svg, 625, 600, L('魔药学教室','Potions'), 'ls', b + 0.6);
 
   // ── 图书馆（巨大的 L 型空间，原著中横跨多个区域） ──
   drawLRoom(svg, 870, 180, 400, 120, 250, 300, 'bl', { thick: true, delay: b + 0.3 });
@@ -168,25 +172,25 @@ export const FLOOR_DRAW = {
   for (let i = 0; i < 8; i++) S('line', { x1: 900 + i * 42, y1: 200, x2: 900 + i * 42, y2: 290, stroke: '#8a6a4a', 'stroke-width': 0.5, opacity: 0, style: `animation:ikf 2s ease ${b + 0.9 + i * 0.06}s forwards` }, svg);
   for (let i = 0; i < 4; i++) S('line', { x1: 900 + i * 55, y1: 310, x2: 900 + i * 55, y2: 460, stroke: '#8a6a4a', 'stroke-width': 0.5, opacity: 0, style: `animation:ikf 2s ease ${b + 1 + i * 0.08}s forwards` }, svg);
   addLabel(svg, 1070, 250, 'Library', 'll', b + 0.5);
-  addLabel(svg, 1070, 268, '图书馆', 'ls', b + 0.55);
+  addLabel(svg, 1070, 268, L('图书馆','Library'), 'ls', b + 0.55);
 
   // ── 禁书区（图书馆深处，用铁栏隔开的区域） ──
   drawRoom(svg, 1100, 340, 160, 120, { delay: b + 0.55 });
   S('path', { d: `M 1100,340 L 1100,460`, class: 'rpt', style: `animation-delay:${b + 0.7}s;stroke-width:2;stroke-dasharray:4 6` }, svg);
   addLabel(svg, 1180, 400, '⚠ RESTRICTED', 'hw', b + 1.2);
-  addLabel(svg, 1180, 420, '禁书区', 'ls', b + 0.7);
+  addLabel(svg, 1180, 420, L('禁书区','Restricted'), 'ls', b + 0.7);
 
   // ── 麦格办公室（圆角房间，图书馆旁） ──
   drawPoly(svg, [[1320, 200], [1480, 195], [1490, 310], [1330, 320]], { delay: b + 0.5 });
   addLabel(svg, 1405, 258, "McGonagall", 'lt', b + 0.65);
-  addLabel(svg, 1405, 276, '麦格办公室', 'ls', b + 0.7);
+  addLabel(svg, 1405, 276, L('麦格办公室',"McGonagall's"), 'ls', b + 0.7);
 
   // ── 哭泣的桃金娘盥洗室（走廊尽头的圆形空间） ──
   drawTower(svg, 280, 830, 70, { delay: b + 0.6 });
   // 水管装饰
   S('path', { d: `M ${W(240, 800)} Q ${W(280, 790)} ${W(320, 810)} Q ${W(350, 800)} ${W(340, 830)}`, class: 'dl', 'stroke-width': '.8', style: `opacity:0;animation:ikf 2s ease ${b + 1.3}s forwards` }, svg);
   addLabel(svg, 280, 825, "Myrtle's", 'lt', b + 0.75);
-  addLabel(svg, 280, 843, '桃金娘盥洗室', 'ls', b + 0.8);
+  addLabel(svg, 280, 843, L('桃金娘盥洗室',"Myrtle's Bath"), 'ls', b + 0.8);
   addLabel(svg, 350, 865, 'Do NOT enter...', 'hw', b + 1.4);
 
   // ── 移动楼梯 ──
@@ -214,7 +218,7 @@ export const FLOOR_DRAW = {
   S('rect', { x: 305, y: 365, width: 30, height: 30, rx: 3, fill: 'none', stroke: '#8a6a4a', 'stroke-width': 0.6, opacity: 0, style: `animation:ikf 2s ease ${b + 1}s forwards` }, svg);
   addLabel(svg, 320, 340, 'Gryffindor', 'll', b + 0.4);
   addLabel(svg, 320, 358, 'Tower', 'lt', b + 0.45);
-  addLabel(svg, 320, 378, '格兰芬多塔', 'ls', b + 0.5);
+  addLabel(svg, 320, 378, L('格兰芬多塔','Gryffindor'), 'ls', b + 0.5);
   drawHouseGlow(svg, 320, 380, 150, 'gryffindor', b + 0.55);
   drawHouseCrest(svg, 320, 380, 'gryffindor', 25, b + 0.6);
   addLabel(svg, 180, 280, 'Password: Fat Lady', 'hw', b + 1.4);
@@ -229,7 +233,7 @@ export const FLOOR_DRAW = {
     S('rect', { x: 310 + Math.cos(a) * 35, y: 630 + Math.sin(a) * 35, width: 20, height: 30, rx: 3, fill: 'none', stroke: '#8a6a4a', 'stroke-width': 0.4, opacity: 0, transform: `rotate(${a * 180 / Math.PI + 90} ${320 + Math.cos(a) * 35} ${640 + Math.sin(a) * 35})`, style: `animation:ikf 2s ease ${b + 1 + i * 0.1}s forwards` }, svg);
   }
   addLabel(svg, 320, 635, 'Dormitory', 'lt', b + 0.6);
-  addLabel(svg, 320, 652, '寝室', 'ls', b + 0.65);
+  addLabel(svg, 320, 652, L('寝室','Dormitory'), 'ls', b + 0.65);
 
   // ── 拉文克劳塔（东北方向，另一座大型塔楼） ──
   drawTower(svg, 850, 340, 140, { delay: b + 0.25, thick: true });
@@ -237,7 +241,7 @@ export const FLOOR_DRAW = {
   drawTower(svg, 850, 340, 35, { delay: b + 0.5 });
   addLabel(svg, 850, 305, 'Ravenclaw', 'll', b + 0.45);
   addLabel(svg, 850, 323, 'Tower', 'lt', b + 0.5);
-  addLabel(svg, 850, 343, '拉文克劳塔', 'ls', b + 0.55);
+  addLabel(svg, 850, 343, L('拉文克劳塔','Ravenclaw'), 'ls', b + 0.55);
   drawHouseGlow(svg, 850, 340, 140, 'ravenclaw', b + 0.6);
   drawHouseCrest(svg, 850, 340, 'ravenclaw', 25, b + 0.65);
   addLabel(svg, 720, 250, 'Answer the riddle', 'hw', b + 1.5);
@@ -248,7 +252,7 @@ export const FLOOR_DRAW = {
   // ── 拉文克劳寝室 ──
   drawTower(svg, 850, 590, 65, { delay: b + 0.5 });
   addLabel(svg, 850, 585, 'Dormitory', 'lt', b + 0.6);
-  addLabel(svg, 850, 602, '寝室', 'ls', b + 0.65);
+  addLabel(svg, 850, 602, L('寝室','Dormitory'), 'ls', b + 0.65);
 
   // ── 弯曲走廊连接两塔 ──
   drawCurvedCorridor(svg, [[470, 380], [560, 360], [650, 370], [710, 350]], 22, b + 0.5);
@@ -264,12 +268,12 @@ export const FLOOR_DRAW = {
   }
   addLabel(svg, 1200, 340, 'Astronomy', 'll', b + 0.55);
   addLabel(svg, 1200, 358, 'Tower', 'lt', b + 0.6);
-  addLabel(svg, 1200, 376, '天文塔', 'ls', b + 0.65);
+  addLabel(svg, 1200, 376, L('天文塔','Astronomy'), 'ls', b + 0.65);
 
   // ── 猫头鹰棚屋（天文塔旁的小圆形建筑） ──
   drawTower(svg, 1200, 550, 55, { delay: b + 0.6 });
   addLabel(svg, 1200, 545, 'Owlery', 'lt', b + 0.75);
-  addLabel(svg, 1200, 562, '猫头鹰棚屋', 'ls', b + 0.8);
+  addLabel(svg, 1200, 562, L('猫头鹰棚屋','Owlery'), 'ls', b + 0.8);
 
   // ── 校长办公室（西南，独立的圆形+方形组合） ──
   drawTower(svg, 1450, 350, 80, { delay: b + 0.4, thick: true });
@@ -277,7 +281,7 @@ export const FLOOR_DRAW = {
   drawStairs(svg, 1430, 300, 40, 50, 10, b + 0.65);
   addLabel(svg, 1450, 340, "Headmaster's", 'll', b + 0.6);
   addLabel(svg, 1450, 358, 'Office', 'lt', b + 0.65);
-  addLabel(svg, 1450, 376, '校长办公室', 'ls', b + 0.7);
+  addLabel(svg, 1450, 376, L('校长办公室',"Headmaster's"), 'ls', b + 0.7);
   addLabel(svg, 1380, 530, 'Lemon drops', 'hw', b + 1.6);
 
   // ── 有求必应屋（虚线标记，七楼走廊） ──
@@ -293,7 +297,7 @@ export const FLOOR_DRAW = {
   addLabel(svg, 625, 795, '...appears only', 'hw', b + 1.4);
   addLabel(svg, 625, 810, 'when needed', 'hw', b + 1.45);
   addLabel(svg, 625, 835, 'Room of Requirement', 'lt', b + 0.85);
-  addLabel(svg, 625, 852, '有求必应屋', 'ls', b + 0.9);
+  addLabel(svg, 625, 852, L('有求必应屋','Room of Req.'), 'ls', b + 0.9);
 
   // ── 装饰 ──
   S('path', { d: 'M 150,160 Q 600,148 1050,160 Q 1400,172 1550,160', class: 'dl', style: `opacity:0;animation:ikf 3s ease ${b + 0.5}s forwards` }, svg);
@@ -318,7 +322,7 @@ export const FLOOR_DRAW = {
   [-180, 180].forEach(ox => { for (let i = -1; i <= 1; i++) S('circle', { cx: qx + ox, cy: qy + i * 28, r: 7, fill: 'none', stroke: '#5a3a1a', 'stroke-width': 1, opacity: 0, style: `animation:ikf 2s ease ${b + 0.8}s forwards` }, svg); });
   S('circle', { cx: qx, cy: qy, r: 28, fill: 'none', stroke: '#8a6a4a', 'stroke-width': 0.6, opacity: 0, style: `animation:ikf 2s ease ${b + 0.6}s forwards` }, svg);
   addLabel(svg, qx, qy - 8, 'Quidditch Pitch', 'll', b + 0.5);
-  addLabel(svg, qx, qy + 10, '魁地奇球场', 'ls', b + 0.55);
+  addLabel(svg, qx, qy + 10, L('魁地奇球场','Quidditch'), 'ls', b + 0.55);
 
   // ── 金色飞贼（Golden Snitch） ──
   const snitch = S('g', { id: 'golden-snitch', class: 'snitch', style: `opacity:0;animation:ikf 2s ease ${b + 1.2}s forwards` }, svg);
@@ -338,7 +342,7 @@ export const FLOOR_DRAW = {
   S('path', { d: 'M 880,190 Q 875,170 885,155 Q 878,140 888,125', class: 'dl', 'stroke-width': '1', style: `opacity:0;animation:ikf 2s ease ${b + 1}s forwards` }, svg);
   for (let i = 0; i < 4; i++) S('circle', { cx: 930 + i * 20, cy: 325, r: 5 + Math.random() * 4, fill: 'none', stroke: '#8a6a4a', 'stroke-width': 0.6, opacity: 0, style: `animation:ikf 2s ease ${b + 1.1 + i * 0.1}s forwards` }, svg);
   addLabel(svg, 880, 255, "Hagrid's Hut", 'll', b + 0.55);
-  addLabel(svg, 880, 273, '海格小屋', 'ls', b + 0.6);
+  addLabel(svg, 880, 273, L('海格小屋',"Hagrid's Hut"), 'ls', b + 0.6);
 
   // ── 禁林（有机不规则边界 + 大量树木） ──
   const fg = S('g', { style: `opacity:0;animation:ikf 3s ease ${b + 0.4}s forwards` }, svg);
@@ -348,7 +352,7 @@ export const FLOOR_DRAW = {
     S('circle', { cx: tx, cy: ty - 18, r: 5 + Math.random() * 5, fill: 'none', stroke: '#5a3a1a', 'stroke-width': 0.6, opacity: 0.3 }, fg);
   });
   addLabel(svg, 990, 590, 'Forbidden Forest', 'll', b + 0.7);
-  addLabel(svg, 990, 608, '禁林', 'ls', b + 0.75);
+  addLabel(svg, 990, 608, L('禁林','Forbidden Forest'), 'ls', b + 0.75);
   addLabel(svg, 990, 660, 'Here be dangers...', 'hw', b + 1.4);
 
   // ── 黑湖（大型有机水体形状） ──
@@ -358,14 +362,14 @@ export const FLOOR_DRAW = {
     S('path', { d: `M ${290 + i * 8},${ry} Q ${400},${ry - 6} ${480 - i * 5},${ry} Q ${550},${ry + 6} ${620 - i * 8},${ry}`, class: 'dl', 'stroke-width': '.4', style: `opacity:0;animation:ikf 2.5s ease ${b + 1 + i * 0.12}s forwards` }, svg);
   }
   addLabel(svg, 440, 665, 'Black Lake', 'll', b + 0.65);
-  addLabel(svg, 440, 683, '黑湖', 'ls', b + 0.7);
+  addLabel(svg, 440, 683, L('黑湖','Black Lake'), 'ls', b + 0.7);
   addLabel(svg, 440, 725, 'Giant Squid below', 'hw', b + 1.5);
 
   // ── 温室（玻璃屋顶的长形建筑） ──
   drawPoly(svg, [[1280, 190], [1500, 185], [1510, 330], [1290, 340]], { delay: b + 0.45 });
   for (let i = 0; i < 6; i++) S('line', { x1: 1300 + i * 35, y1: 195, x2: 1300 + i * 35, y2: 335, stroke: '#8a6a4a', 'stroke-width': 0.4, opacity: 0, style: `animation:ikf 2s ease ${b + 0.9 + i * 0.07}s forwards` }, svg);
   addLabel(svg, 1395, 265, 'Greenhouse', 'll', b + 0.65);
-  addLabel(svg, 1395, 283, '温室', 'ls', b + 0.7);
+  addLabel(svg, 1395, 283, L('温室','Greenhouse'), 'ls', b + 0.7);
 
   // ── 打人柳（独立的大树） ──
   const wx = 1350, wy = 480;
@@ -375,13 +379,13 @@ export const FLOOR_DRAW = {
     S('path', { d: `M ${wx},${wy - 25} Q ${wx + Math.cos(a) * len * 0.5 + (Math.random() - 0.5) * 18},${wy - 25 + Math.sin(a) * len * 0.5 + (Math.random() - 0.5) * 12} ${wx + Math.cos(a) * len},${wy - 25 + Math.sin(a) * len}`, stroke: '#5a3a1a', 'stroke-width': 0.8, fill: 'none', opacity: 0, style: `animation:ikf 2s ease ${b + 0.9 + i * 0.04}s forwards` }, svg);
   }
   addLabel(svg, wx, wy + 55, 'Whomping Willow', 'lt', b + 0.85);
-  addLabel(svg, wx, wy + 72, '打人柳', 'ls', b + 0.9);
+  addLabel(svg, wx, wy + 72, L('打人柳','Whomping Willow'), 'ls', b + 0.9);
   addLabel(svg, wx + 70, wy + 88, 'Secret passage', 'hw', b + 1.6);
 
   // ── 通往霍格莫德的小路（蜿蜒虚线） ──
   S('path', { d: 'M 1280,600 Q 1350,580 1420,610 Q 1490,590 1560,620 Q 1600,610 1650,620', class: 'rp', style: `animation-delay:${b + 0.65}s;stroke-dasharray:8 6` }, svg);
   addLabel(svg, 1460, 590, 'To Hogsmeade →', 'ls', b + 0.85);
-  addLabel(svg, 1460, 630, '通往霍格莫德', 'ls', b + 0.9);
+  addLabel(svg, 1460, 630, L('通往霍格莫德','To Hogsmeade'), 'ls', b + 0.9);
 
   // ── 装饰 ──
   S('path', { d: 'M 150,160 Q 600,148 1050,160 Q 1400,172 1550,160', class: 'dl', style: `opacity:0;animation:ikf 3s ease ${b + 0.5}s forwards` }, svg);
