@@ -1,11 +1,11 @@
 :root{--p:#d4b896;--pl:#e8d5b7;--i:#2a1a0a;--il:#5a3a1a;--if:#8a6a4a;--ig:#b8a080;--g:#c9a84c;--r:#8b2500;--gi:#2d5a27;--fp:#3a2510}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{background:#1a0e05;overflow:hidden;font-family:'IM Fell English',serif;color:var(--i);cursor:default;user-select:none}
-#opening-screen{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#1a0e05;transition:opacity 1.5s}
+#opening-screen{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;align-items:center;background:#1a0e05;transition:opacity 1.5s;overflow-y:auto;-webkit-overflow-scrolling:touch}
 #opening-screen.fade-out{opacity:0;pointer-events:none}
-.ot{font-family:'Cinzel Decorative',serif;color:var(--g);font-size:1.1rem;letter-spacing:5px;text-transform:uppercase;opacity:0;animation:fiu 1.5s ease forwards;text-align:center;line-height:2}
+.ot{font-family:'Cinzel Decorative',serif;color:var(--g);font-size:1.1rem;letter-spacing:5px;text-transform:uppercase;opacity:0;animation:fiu 1.5s ease forwards;text-align:center;line-height:2;margin-top:auto}
 .ot .big{display:block;font-size:2.6rem;letter-spacing:10px;margin:8px 0;text-shadow:0 0 30px rgba(201,168,76,.5)}
-.sia{margin-top:40px;text-align:center;opacity:0;animation:fiu 1.5s ease 1s forwards}
+.sia{margin-top:40px;margin-bottom:auto;text-align:center;opacity:0;animation:fiu 1.5s ease 1s forwards;padding-bottom:40px}
 .sh{font-style:italic;color:var(--if);font-size:1rem;margin-bottom:15px}
 #si{background:0 0;border:1px solid var(--if);padding:12px 24px;font-family:'IM Fell English',serif;font-size:1.1rem;color:var(--g);text-align:center;width:400px;max-width:90vw;outline:0;letter-spacing:1px;transition:border-color .3s}
 #si:focus{border-color:var(--g);box-shadow:0 0 20px rgba(201,168,76,.2)}

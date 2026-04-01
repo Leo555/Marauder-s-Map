@@ -3,7 +3,7 @@
  * 包含话题匹配、回复去重、对话记忆、情感检测
  * 支持中英文双语
  */
-import { getLang, charName } from './i18n.js?v=1.15';
+import { getLang, charName } from './i18n.js?v=1.16';
 
 const chatHistory = {};   // charId -> [{role, text}]
 const usedResponses = {}; // charId -> Set<string>

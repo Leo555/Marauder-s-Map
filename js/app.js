@@ -3,13 +3,13 @@
  * 地图控制、角色移动动画、信息卡片、事件绑定
  */
 
-import { FLOOR_DRAW } from './floors.js?v=1.15';
-import { CHARS, AVATARS } from './characters.js?v=1.15';
-import './characters-en.js?v=1.15';
-import { ROOM_BOUNDS } from '../data/rooms.js?v=1.15';
-import { pickRandom, getResponse } from './chat.js?v=1.15';
-import { startMusic, stopMusic, toggleMusic, isMusicPlaying } from './music.js?v=1.15';
-import { initLang, getLang, setLang, t, charName, onLangChange } from './i18n.js?v=1.15';
+import { FLOOR_DRAW } from './floors.js?v=1.16';
+import { CHARS, AVATARS } from './characters.js?v=1.16';
+import './characters-en.js?v=1.16';
+import { ROOM_BOUNDS } from '../data/rooms.js?v=1.16';
+import { pickRandom, getResponse } from './chat.js?v=1.16';
+import { startMusic, stopMusic, toggleMusic, isMusicPlaying } from './music.js?v=1.16';
+import { initLang, getLang, setLang, t, charName, onLangChange } from './i18n.js?v=1.16';
 
 // ===== 全局状态 =====
 let curFloor = 1;
@@ -63,7 +63,7 @@ function openMap() {
     updateMM();
     const c = document.getElementById('mc');
     c.scrollLeft = (2000 - c.clientWidth) / 2;
-    c.scrollTop = (1600 - c.clientHeight) / 2;
+    c.scrollTop = 0;
   }, 800);
 }
 
