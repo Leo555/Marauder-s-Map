@@ -3,13 +3,13 @@
  * 地图控制、角色移动动画、信息卡片、事件绑定
  */
 
-import { FLOOR_DRAW } from './floors.js?v=1.14';
-import { CHARS, AVATARS } from './characters.js?v=1.14';
-import './characters-en.js?v=1.14';
-import { ROOM_BOUNDS } from '../data/rooms.js?v=1.14';
-import { pickRandom, getResponse } from './chat.js?v=1.14';
-import { startMusic, stopMusic, toggleMusic, isMusicPlaying } from './music.js?v=1.14';
-import { initLang, getLang, setLang, t, charName, onLangChange } from './i18n.js?v=1.14';
+import { FLOOR_DRAW } from './floors.js?v=1.15';
+import { CHARS, AVATARS } from './characters.js?v=1.15';
+import './characters-en.js?v=1.15';
+import { ROOM_BOUNDS } from '../data/rooms.js?v=1.15';
+import { pickRandom, getResponse } from './chat.js?v=1.15';
+import { startMusic, stopMusic, toggleMusic, isMusicPlaying } from './music.js?v=1.15';
+import { initLang, getLang, setLang, t, charName, onLangChange } from './i18n.js?v=1.15';
 
 // ===== 全局状态 =====
 let curFloor = 1;
@@ -306,8 +306,10 @@ function showInfo(id) {
 
   // 打招呼
   setTimeout(() => {
-    const greetTopic = c.topics.find(t => t.greet);
-    const greeting = greetTopic ? pickRandom(greetTopic.r, c.id) : pickRandom(c._, c.id);
+    const topics = getLang() === 'en' && c.topics_en ? c.topics_en : c.topics;
+    const fallback = getLang() === 'en' && c._en ? c._en : c._;
+    const greetTopic = topics.find(t => t.greet);
+    const greeting = greetTopic ? pickRandom(greetTopic.r, c.id) : pickRandom(fallback, c.id);
     addMsg(charName(c), greeting, false);
   }, 400);
 }

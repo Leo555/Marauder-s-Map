@@ -2,7 +2,7 @@
  * characters-en.js — English translations for character data
  * Patches CHARS with intro_en, acts_en, topics_en, _en fields
  */
-import { CHARS } from './characters.js?v=1.14';
+import { CHARS } from './characters.js?v=1.15';
 
 const EN = {
 harry: {
